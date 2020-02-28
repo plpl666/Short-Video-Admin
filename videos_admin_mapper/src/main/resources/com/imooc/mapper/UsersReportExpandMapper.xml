@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imooc.mapper.UsersReportExpandMapper" >
+
+  <resultMap id="BaseResultMap" type="com.imooc.pojo.vo.UsersReportVO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="username" property="dealUsername" jdbcType="VARCHAR" />
+    <result column="deal_video_id" property="dealVideoId" jdbcType="VARCHAR" />
+    <result column="video_path" property="videoPath" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="username" property="submitUsername" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="selectAllUsersReport" resultMap="BaseResultMap">
+    SELECT ur.id, ur.title, ur.content, ur.create_time, ur.deal_video_id,
+           du.username,
+           v.video_path, v.status,
+           u.username AS submitUsername
+    FROM users_report ur
+    LEFT JOIN users du ON ur.deal_user_id = du.id
+    LEFT JOIN videos v ON ur.deal_video_id = v.id
+    LEFT JOIN users u ON ur.user_id = u.id
+    ORDER BY ur.create_time DESC
+  </select>
+
+</mapper>
